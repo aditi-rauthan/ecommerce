@@ -25,9 +25,15 @@ export default function AuthModal({ handleClose, open }) {
   const navigate=useNavigate()
   useEffect(() => {
     if (auth.user){
+      console.log("authNodel: " ,auth.user)
        handleClose();
        if(auth.user?.role==="ADMIN"){
+        console.log("admin")
         navigate('/admin')
+       }
+       else{
+        console.log("user")
+        navigate("/home")
        }
       }
   }, [auth.user]);
@@ -44,7 +50,7 @@ export default function AuthModal({ handleClose, open }) {
         {location.pathname === "/login" ? (
           <LoginUserForm />
         ) : (
-          <RegisterUserForm />
+          <RegisterUserForm /> 
         )}
       </Box>
     </Modal>

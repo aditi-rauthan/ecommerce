@@ -40,10 +40,10 @@ export const login = userData => async dispatch => {
   dispatch(loginRequest());
   try {
     const response = await axios.post(`${API_BASE_URL}/auth/login`, userData);
-    const user = response.data;
-    if(user.jwt) localStorage.setItem("jwt",user.jwt)
-    console.log("login ",user)
-    dispatch(loginSuccess(user));
+    const res = response.data;
+    if(res.token) localStorage.setItem("jwt",res.token)
+    console.log("login ",res)
+    dispatch(loginSuccess(res.user));
   } catch (error) {
     dispatch(loginFailure(error.message));
   }
@@ -56,6 +56,7 @@ export const getUser = (token) => {
   return async (dispatch) => {
     dispatch({ type: GET_USER_REQUEST });
     try {
+      // console.log("token" , token)
       const response = await axios.get(`${API_BASE_URL}/api/users/profile`,{
         headers:{
           "Authorization":`Bearer ${token}`
@@ -63,7 +64,7 @@ export const getUser = (token) => {
       });
       const user = response.data;
       dispatch({ type: GET_USER_SUCCESS, payload: user });
-      console.log("req User ",user)
+      // console.log("req User ",user)
     } catch (error) {
       const errorMessage = error.message;
       dispatch({ type: GET_USER_FAILURE, payload: errorMessage });

@@ -33,6 +33,7 @@ export default function Navigation() {
 
   useEffect(() => {
     if (jwt) {
+      console.log(jwt)
       dispatch(getUser(jwt));
       dispatch(getCart(jwt));
     }
@@ -42,10 +43,12 @@ export default function Navigation() {
     setAnchorEl(event.currentTarget);
   };
   const handleCloseUserMenu = (event) => {
+    navigate("/profile")
     setAnchorEl(null);
   };
 
   const handleOpen = () => {
+    navigate('/login')
     setOpenAuthModal(true);
   };
   const handleClose = () => {
@@ -400,7 +403,7 @@ export default function Navigation() {
                   {auth.user ? (
                     <div>
                       {/* change */}
-                      <button
+                      {/* <button
                         onClick={() => navigate("/cart")}
                         className="group -m-2 flex items-center p-2"
                       >
@@ -413,7 +416,7 @@ export default function Navigation() {
                             {cart.cart.items.length}
                           </span>
                         )}
-                      </button>
+                      </button> */}
 
                       <Avatar
                         className="text-white"
@@ -428,7 +431,7 @@ export default function Navigation() {
                           cursor: "pointer",
                         }}
                       >
-                        {auth.user?.firstName[0].toUpperCase()}
+                        {auth.user?.name.toUpperCase()[0]}
                       </Avatar>
                       <Button
                         id="basic-button"
@@ -448,9 +451,11 @@ export default function Navigation() {
                           "aria-labelledby": "basic-button",
                         }}
                       >
-                        <MenuItem onClick={handleCloseUserMenu}>
+
+                        
+                        {/* <MenuItem onClick={handleCloseUserMenu}>
                           Profile
-                        </MenuItem>
+                        </MenuItem> */}
 
                         <MenuItem onClick={handleMyOrderClick}>
                           My Orders

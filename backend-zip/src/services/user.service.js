@@ -65,10 +65,12 @@ const getUserProfileByToken=async(token)=>{
 
         const userId=jwtProvider.getUserIdFromToken(token)
 
-        console.log("userr id ",userId)
+        console.log("user id ",userId)
 
 
-        const user= (await findUserById(userId)).populate("addresses");
+        // const user= (await findUserById(userId)).populate("addresses");
+        // user.password=null;
+        const user= (await findUserById(userId));
         user.password=null;
         
         if(!user){

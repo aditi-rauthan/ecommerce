@@ -123,6 +123,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { register } from '../../../Redux/Auth/Action';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -146,30 +148,34 @@ const Register = () => {
     setFormData({ ...formData, acceptedTerms: e.target.checked });
   };
 
+  const dispatch = useDispatch();
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       // Step 1: Register the user
-      const res = await axios.post('http://localhost:5454/auth/register', formData);
-      alert(res.data.message); // Alert on success
+      // const res = await axios.post('http://localhost:5454/auth/register', formData);
+      // alert(res.data.message); // Alert on success
   
-      const { token, user } = res.data;
-      localStorage.setItem("vendorId", user._id);
-      localStorage.setItem("userToken", token);
-      localStorage.setItem("userName", user.name);
-      localStorage.setItem("userRole", user.role);
+      // const { token, user } = res.data;
+      // localStorage.setItem("vendorId", user._id);
+      // localStorage.setItem("userToken", token);
+      // localStorage.setItem("userName", user.name);
+      // localStorage.setItem("userRole", user.role);
   
-      // Step 2: Set success state to true
-      setSuccess(true);
+      // // Step 2: Set success state to true
+      // setSuccess(true);
   
-      // Step 3: Redirect to another page (e.g., Login Page)
-      navigate('/login');  // You can change '/login' to any other route
+      // // Step 3: Redirect to another page (e.g., Login Page)
+      // navigate('/login');  // You can change '/login' to any other route
   
-      // Step 4: Show a success message after registration
-      setTimeout(() => {
-        setSuccess(false); // Close the modal after 3 seconds
-      }, 3000);
+      // // Step 4: Show a success message after registration
+      // setTimeout(() => {
+      //   setSuccess(false); // Close the modal after 3 seconds
+      // }, 3000);
+
+      dispatch(register(formData));
   
     } catch (err) {
       console.error('Error during registration:', err);
