@@ -13,8 +13,12 @@ async function createCart(user) {
 
 // Find a user's cart and update cart details
 async function findUserCart(userId) {
-  let cart =await Cart.findOne({ user: userId })
   
+  let cart =await Cart.findOne({ user: userId })
+  console.log("cartservice",cart)
+  if(cart==null){
+    return;
+  }
   let cartItems=await CartItem.find({cart:cart._id}).populate("product")
 
   cart.cartItems=cartItems

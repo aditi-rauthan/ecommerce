@@ -96,7 +96,9 @@
 // }
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
+import { login } from '../../../Redux/Auth/Action';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -111,21 +113,25 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const dispatch = useDispatch();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:5454/auth/login', formData);
-      const { token, user } = res.data;
+      // const res = await axios.post('http://localhost:5454/auth/login', formData);
+      // const { token, user } = res.data;
 
-      // Store token and user data in localStorage
-      localStorage.setItem('userToken', token);
-      localStorage.setItem('userName', user.name);
-      localStorage.setItem('userRole', user.role);
+      // // Store token and user data in localStorage
+      // localStorage.setItem('userToken', token);
+      // localStorage.setItem('userName', user.name);
+      // localStorage.setItem('userRole', user.role);
 
-      // Redirect to the desired page (e.g., home or dashboard)
-      navigate('/home');  // Change '/home' to the page you want to navigate to after login
+      // // Redirect to the desired page (e.g., home or dashboard)
+      // navigate('/home');  // Change '/home' to the page you want to navigate to after login
+
+      dispatch(login(formData)); 
     } catch (err) {
       setErrorMessage('Login failed: ' + (err.response?.data?.message || 'Error'));
     } finally {

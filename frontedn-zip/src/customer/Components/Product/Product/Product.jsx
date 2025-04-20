@@ -439,6 +439,7 @@ export default function Product() {
                               >
                                 {section.options.map((option, optionIdx) => (
                                   <FormControlLabel
+                                    key={optionIdx} 
                                     value={option.value}
                                     control={<Radio />}
                                     label={option.label}

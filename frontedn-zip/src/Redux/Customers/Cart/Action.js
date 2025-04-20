@@ -63,6 +63,7 @@ console.log("cart ",data)
       payload: data,
     });
   } catch (error) {
+    console.log("cart falure")
     dispatch({
       type: GET_CART_FAILURE,
       payload:
