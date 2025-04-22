@@ -5,5 +5,6 @@ const userController=require("../controllers/user.controller.js")
 
 router.get("/",userController.getAllUsers)
 router.get("/profile",userController.getUserProfile)
+router.put("/new_address/:id", userController.addAddress);
 
 module.exports=router;

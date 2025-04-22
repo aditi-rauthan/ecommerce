@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -18,11 +17,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     required:true,
     default:"user",
-    // enum:["user"],
   },
-},
-{timestamps:true}
-);
-const User = mongoose.model("users", userSchema);
+  state: {
+    type: String,
+    default: ""
+  },
+  city: {
+    type: String,
+    default: ""
+  },
+  pincode: {
+    type: String,
+    default: ""
+  }
+}, {timestamps:true});
 
+const User = mongoose.model("users", userSchema);
 module.exports = User;

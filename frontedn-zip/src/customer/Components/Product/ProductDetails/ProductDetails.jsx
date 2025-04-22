@@ -13,51 +13,53 @@ import { lengha_page1 } from "../../../../Data/Women/LenghaCholi";
 import { gounsPage1 } from "../../../../Data/Gouns/gouns";
 
 const product = {
-  name: "Basic Tee 6-Pack",
-  price: "₹996",
+  name: "Grand Wedding Package",
+  title: "Exclusive Wedding Event Package",
+  price: 500000,
   href: "#",
   breadcrumbs: [
-    { id: 1, name: "Men", href: "#" },
-    { id: 2, name: "Clothing", href: "#" },
+    { id: 1, name: "Weddings", href: "#" },
+    { id: 2, name: "Event Packages", href: "#" },
   ],
   images: [
-    {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg",
-      alt: "Two each of gray, white, and black shirts laying flat.",
+    {src: "https://m.media-amazon.com/images/I/71S5hiNCl2L.AC_UL480_FMwebp_QL65.jpg",
+      
+      alt: "Decorated wedding hall",
     },
     {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg",
-      alt: "Model wearing plain black basic tee.",
-    },
-    {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg",
-      alt: "Model wearing plain gray basic tee.",
-    },
-    {
-      src: "https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg",
-      alt: "Model wearing plain white basic tee.",
+      src: "https://imgs.search.brave.com/oejzFeiHGYkEEYyusoF7KNz5BIp7TQOtfUt8i12uB0Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/dGhlZ3JhbmR0cnVu/a3VzLmNvbS9jZG4v/c2hvcC9maWxlcy9N/TS1QUi1MSC0yODg5/OC1CTC1EUC1IVl9D/LUVOUV8xXzI0NTVf/NDAweDYwMF9jcm9w/X2NlbnRlci5qcGc_/dj0xNzM1OTEwNjU1",
+      alt: "Wedding stage decoration",
     },
   ],
   colors: [
-    { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-    { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-    { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
+    { name: "Gold", class: "bg-yellow-500", selectedClass: "ring-yellow-400" },
+    { name: "Silver", class: "bg-gray-400", selectedClass: "ring-gray-600" },
   ],
   sizes: [
-    { name: "S", inStock: true },
-    { name: "M", inStock: true },
-    { name: "L", inStock: true },
+    { name: "Full Event", inStock: true },
+    { name: "Reception Only", inStock: true },
+    { name: "Ceremony Only", inStock: true },
   ],
   description:
-    'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
+    "Make your wedding memorable with our all-in-one event package. Includes venue, catering, decoration, and entertainment!",
   highlights: [
-    "Hand cut and sewn locally",
-    "Dyed with our proprietary colors",
-    "Pre-washed & pre-shrunk",
-    "Ultra-soft 100% cotton",
+    "Luxury Venue with 500+ Seating",
+    "Complete Catering Service",
+    "Live DJ & Entertainment",
+    "Custom Wedding Decor",
   ],
   details:
-    'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
+    "Our premium wedding package offers everything needed for a grand event. Professional planners, decorators, and caterers will make your event flawless.",
+  reviews: {
+    href: "#",
+    average: 4.8,
+    totalCount: 152,
+  },
+  packages: [
+    { id: 1, name: "Standard Package", price: 500000 },
+    { id: 2, name: "Premium Package", price: 750000 },
+    { id: 3, name: "VIP Package", price: 1000000 },
+  ],
 };
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
@@ -80,7 +82,9 @@ export default function ProductDetails() {
   };
 
   const handleSubmit = () => {
-    const data = { productId, size: selectedSize.name };
+    // const data = { productId, size: selectedSize.name };
+    
+    const data = { productId};
     dispatch(addItemToCart({ data, jwt }));
     navigate("/cart");
   };
@@ -140,6 +144,7 @@ export default function ProductDetails() {
           {/* Image gallery */}
           <div className="flex flex-col items-center ">
             <div className=" overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]">
+              {/* main image */}
               <img
                 src={activeImage?.src || customersProduct.product?.imageUrl}
                 alt={product.images[0].alt}
@@ -152,11 +157,11 @@ export default function ProductDetails() {
                   onClick={() => handleSetActiveImage(image)}
                   className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4"
                 >
-                  <img
+                  {/* <img
                     src={image.src}
                     alt={product.images[1].alt}
                     className="h-full w-full object-cover object-center"
-                  />
+                  /> */}
                 </div>
               ))}
             </div>
@@ -178,13 +183,19 @@ export default function ProductDetails() {
               <h2 className="sr-only">Product information</h2>
               <div className="flex space-x-5 items-center text-lg lg:text-xl tracking-tight text-gray-900 mt-6">
                 <p className="font-semibold">
-                  ₹{customersProduct.product?.discountedPrice}
+                 {customersProduct.product?.discountedPrice != null
+  ? `₹${customersProduct.product.discountedPrice}`
+  : ""}
+
                 </p>
-                <p className="opacity-50 line-through">
+                <p className="opacity-50 ">
                   ₹{customersProduct.product?.price}
                 </p>
                 <p className="text-green-600 font-semibold">
-                  {customersProduct.product?.discountPersent}% Off
+                {customersProduct.product?.discountPersent != null
+  ? `${customersProduct.product.discountPersent}% Off`
+  : ""}
+
                 </p>
               </div>
 
@@ -209,7 +220,7 @@ export default function ProductDetails() {
 
               <form className="mt-10" onSubmit={handleSubmit}>
                 {/* Sizes */}
-                <div className="mt-10">
+                {/* <div className="mt-10">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-gray-900">Size</h3>
                   </div>
@@ -281,7 +292,7 @@ export default function ProductDetails() {
                       ))}
                     </div>
                   </RadioGroup>
-                </div>
+                </div> */}
 
                 <Button
                   variant="contained"
@@ -306,26 +317,34 @@ export default function ProductDetails() {
               </div>
 
               <div className="mt-10">
-                <h3 className="text-sm font-medium text-gray-900">
+                {/* <h3 className="text-sm font-medium text-gray-900">
                   Highlights
-                </h3>
+                </h3> */}
 
                 <div className="mt-4">
-                  <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
+                  {/* <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
                     {product.highlights.map((highlight) => (
                       <li key={highlight} className="text-gray-400">
                         <span className="text-gray-600">{highlight}</span>
                       </li>
                     ))}
-                  </ul>
+                  </ul> */}
+                  <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
+  {customersProduct.product?.highlights?.map((highlight, i) => (
+    <li key={i} className="text-gray-400">
+      <span className="text-gray-600">{highlight}</span>
+    </li>
+  )) || ""}
+</ul>
+
                 </div>
               </div>
 
               <div className="mt-10">
-                <h2 className="text-sm font-medium text-gray-900">Details</h2>
+                {/* <h2 className="text-sm font-medium text-gray-900">Details</h2> */}
 
                 <div className="mt-4 space-y-6">
-                  <p className="text-sm text-gray-600">{product.details}</p>
+                  <p className="text-sm text-gray-600">{customersProduct.product?.details}</p>
                 </div>
               </div>
             </div>

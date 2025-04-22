@@ -11,8 +11,8 @@ import OrderSummary from "./OrderSummary";
 
 const steps = [
   "Login",
-  "Delivery Adress",
-  "Order Summary",
+  "Booking Address", // was "Delivery Adress"
+  "Booking Summary", // was "Order Summary"
   "Payment",
 ];
 
@@ -91,7 +91,8 @@ console.log("step",step)
           {/* <Typography sx={{ my: 6 }}>Title</Typography> */}
 
           <div className="my-5">
-            {step == 2? <AddDeliveryAddressForm handleNext={handleNext} />:<OrderSummary/>}
+            {/* {step == 2? <AddDeliveryAddressForm handleNext={handleNext} />:<OrderSummary/>} */}
+            {step == 2 ? <AddDeliveryAddressForm handleNext={handleNext} /> : <OrderSummary />}
           </div>
 
           {/* <AddDeliveryAddressForm handleNext={handleNext} /> */}

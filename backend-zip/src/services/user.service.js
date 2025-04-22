@@ -92,11 +92,30 @@ const getAllUsers=async()=>{
         throw new Error(error.message)
     }
 }
+const addAddress = async (id, address) => {
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            throw new Error("User not found");
+        }
 
-module.exports={
+        user.state = address.state;
+        user.city = address.city;
+        user.pincode = address.pincode;
+
+        await user.save();
+        return user;
+    } catch (error) {
+        console.log("Error while adding address - ", error.message);
+        throw new Error(error.message);
+    }
+};
+
+module.exports = {
     createUser,
     findUserById,
     getUserProfileByToken,
     getUserByEmail,
-    getAllUsers
+    getAllUsers,
+    addAddress  
 }

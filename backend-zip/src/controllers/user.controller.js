@@ -28,4 +28,24 @@ const getAllUsers=async(req,res)=>{
     }
 }
 
-module.exports={getUserProfile,getAllUsers}
+const addAddress = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { state, city, pincode } = req.body;
+
+        const updatedUser = await userService.addAddress(id, { state, city, pincode });
+
+        return res.status(200).send({
+            message: "Address updated successfully",
+            user: updatedUser
+        });
+    } catch (error) {
+        console.log("error from controller - ", error);
+        return res.status(500).send({ error: error.message });
+    }
+};
+module.exports = {
+    getUserProfile,
+    getAllUsers,
+    addAddress
+};

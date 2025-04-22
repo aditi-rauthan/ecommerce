@@ -43,7 +43,7 @@ export default function Navigation() {
     setAnchorEl(event.currentTarget);
   };
   const handleCloseUserMenu = (event) => {
-    navigate("/profile")
+    // navigate("/profile")
     setAnchorEl(null);
   };
 
@@ -72,10 +72,12 @@ export default function Navigation() {
     }
   }, [auth.user]);
 
+  
   const handleLogout = () => {
     handleCloseUserMenu();
     dispatch(logout());
   };
+
   const handleMyOrderClick = () => {
     handleCloseUserMenu();
     navigate("/account/order");
@@ -433,7 +435,7 @@ export default function Navigation() {
                       >
                         {auth.user?.name.toUpperCase()[0]}
                       </Avatar>
-                      <Button
+                      {/* <Button
                         id="basic-button"
                         aria-controls={open ? "basic-menu" : undefined}
                         aria-haspopup="true"
@@ -441,7 +443,7 @@ export default function Navigation() {
                         onClick={handleUserClick}
                       >
                         Dashboard
-                      </Button>
+                      </Button> */}
                       <Menu
                         id="basic-menu"
                         anchorEl={anchorEl}

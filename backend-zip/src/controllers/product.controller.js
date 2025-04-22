@@ -34,14 +34,17 @@ async function updateProduct(req, res) {
 }
 
 // Get all products
-// async function getAllProducts(req, res) {
-//   try {
-//     const products = await productService.getAllProducts();
-//     res.json(products);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// }
+async function getAllProducts(req, res) {
+  console.log(req);
+  try {
+    const products = await productService.getAllProducts();
+    res.json(products);
+    console.log(products);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
 
 // Find a product by ID
 async function findProductById(req, res) {
