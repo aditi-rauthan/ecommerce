@@ -48,10 +48,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Vendor = require("../models/vendor_model");
 const User = require("../models/user.model"); // Optional, if you have a user model
+const cartService=require("../services/cart.service.js")
 
 // ✅ Register Route
 const register = async (req, res) => {
   const { name, email, password, role, acceptedTerms } = req.body;
+  // console.log(name,email,password,role,acceptedTerms);
 
   try {
     // Check for existing user or vendor
@@ -59,10 +61,13 @@ const register = async (req, res) => {
       ? await Vendor.findOne({ email }) 
       : await User.findOne({ email });
 
-    if (existing) return res.status(400).json({ message: "User already exists" });
+    if (existing) {
+      console.log("existing")
+      return res.status(400).json({ message: "User already exists" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    // console.log(hashedPassword)
     let newAccount;
     if (role === "vendor") {
       if (!acceptedTerms)
@@ -74,8 +79,13 @@ const register = async (req, res) => {
     }
 
     await newAccount.save();
+
+    //create cart for user
+    await cartService.createCart(newAccount);
+
     res.status(201).json({ message: "Registered successfully", user: newAccount });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Something went wrong", error: err.message });
   }
 };

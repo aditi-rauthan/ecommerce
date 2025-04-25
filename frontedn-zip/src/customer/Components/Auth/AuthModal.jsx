@@ -25,15 +25,16 @@ export default function AuthModal({ handleClose, open }) {
   const navigate=useNavigate()
   useEffect(() => {
     if (auth.user){
-      console.log("authNodel: " ,auth.user)
+      // console.log("authNodel: " ,auth.user)
        handleClose();
        if(auth.user?.role==="ADMIN"){
-        console.log("admin")
+        // console.log("admin")
         navigate('/admin')
        }
        else{
-        console.log("user")
+        // console.log("user")
         navigate("/home")
+        return;
        }
       }
   }, [auth.user]);

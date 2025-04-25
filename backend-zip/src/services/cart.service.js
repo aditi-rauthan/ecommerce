@@ -23,9 +23,9 @@ async function findUserCart(userId) {
 
   cart.cartItems=cartItems
   
-
+ 
   let totalPrice = 0;
-  let totalDiscountedPrice = 0;
+  let totalDiscountedPrice = 0;   
   let totalItem = 0;
 
   for (const cartItem of cart.cartItems) {
@@ -39,38 +39,53 @@ async function findUserCart(userId) {
   cart.totalDiscountedPrice = totalDiscountedPrice;
   cart.discounte = totalPrice - totalDiscountedPrice;
 
-  // const updatedCart = await cart.save();
-  return cart;
+  const updatedCart = await cart.save();
+  return updatedCart;
+  // return cart;
+
 }
+
 
 // Add an item to the user's cart
 async function addCartItem(userId, req) {
- 
-  const cart = await Cart.findOne({ user: userId });
-  const product = await Product.findById(req.productId);
+  try {
+    const cart = await Cart.findOne({ user: userId });
+    const product = await Product.findById(req.productId);
 
-  const isPresent = await CartItem.findOne({ cart: cart._id, product: product._id, userId });
-  
+    if (!cart || !product) {
+      throw new Error('Cart or Product not found');
+    }
 
-  if (!isPresent) {
-    const cartItem = new CartItem({
-      product: product._id,
-      cart: cart._id,
-      quantity: 1,
-      userId,
-      price: product.discountedPrice,
-      size: req.size,
-      discountedPrice:product.discountedPrice
-    });
+    const isPresent = await CartItem.findOne({ cart: cart._id, product: product._id, userId });
 
-   
+    if (!isPresent) {  
+      const cartItem = new CartItem({
+        product: product._id,
+        cart: cart._id,
+        quantity: 1,
+        userId,
+        price: product.discountedPrice,
+        size: "M",
+        discountedPrice: product.discountedPrice
+      });
 
-    const createdCartItem = await cartItem.save();
-    cart.cartItems.push(createdCartItem);
-    await cart.save();
+      // console.log("cartItem", cartItem);
+
+      const createdCartItem = await cartItem.save();
+      // console.log("createdCartItem", createdCartItem);
+
+      cart.cartItems.push(createdCartItem);
+      // console.log("cart", cart);
+      
+      await cart.save();
+    }
+
+    return 'Item added to cart';
+
+  } catch (error) {
+    console.error("Error adding item to cart:", error);
+    throw new Error('Failed to add item to cart');
   }
-
-  return 'Item added to cart';
 }
 
 module.exports = { createCart, findUserCart, addCartItem };

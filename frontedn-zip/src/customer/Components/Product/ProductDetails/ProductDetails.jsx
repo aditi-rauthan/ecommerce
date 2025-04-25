@@ -22,8 +22,9 @@ const product = {
     { id: 2, name: "Event Packages", href: "#" },
   ],
   images: [
-    {src: "https://m.media-amazon.com/images/I/71S5hiNCl2L.AC_UL480_FMwebp_QL65.jpg",
-      
+    {
+      src: "https://m.media-amazon.com/images/I/71S5hiNCl2L.AC_UL480_FMwebp_QL65.jpg",
+
       alt: "Decorated wedding hall",
     },
     {
@@ -72,7 +73,7 @@ export default function ProductDetails() {
   const [activeImage, setActiveImage] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { customersProduct,review } = useSelector((store) => store);
+  const { customersProduct, review } = useSelector((store) => store);
   const { productId } = useParams();
   const jwt = localStorage.getItem("jwt");
   // console.log("param",productId,customersProduct.product)
@@ -83,8 +84,8 @@ export default function ProductDetails() {
 
   const handleSubmit = () => {
     // const data = { productId, size: selectedSize.name };
-    
-    const data = { productId};
+
+    const data = { productId };
     dispatch(addItemToCart({ data, jwt }));
     navigate("/cart");
   };
@@ -103,7 +104,7 @@ export default function ProductDetails() {
         <nav aria-label="Breadcrumb">
           <ol
             role="list"
-            className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
+            className="flex items-center max-w-2xl px-4 mx-auto space-x-2 sm:px-6 lg:max-w-7xl lg:px-8"
           >
             {product.breadcrumbs.map((breadcrumb) => (
               <li key={breadcrumb.id}>
@@ -120,7 +121,7 @@ export default function ProductDetails() {
                     viewBox="0 0 16 20"
                     fill="currentColor"
                     aria-hidden="true"
-                    className="h-5 w-4 text-gray-300"
+                    className="w-4 h-5 text-gray-300"
                   >
                     <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
                   </svg>
@@ -140,7 +141,7 @@ export default function ProductDetails() {
         </nav>
 
         {/* product details */}
-        <section className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 px-4 pt-10">
+        <section className="grid grid-cols-1 px-4 pt-10 gap-x-8 gap-y-10 lg:grid-cols-2">
           {/* Image gallery */}
           <div className="flex flex-col items-center ">
             <div className=" overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]">
@@ -148,32 +149,33 @@ export default function ProductDetails() {
               <img
                 src={activeImage?.src || customersProduct.product?.imageUrl}
                 alt={product.images[0].alt}
-                className="h-full w-full object-cover object-center"
+                className="object-cover object-center w-full h-full"
               />
             </div>
-            <div className="flex flex-wrap space-x-5 justify-center">
-              {product.images.map((image) => (
+            <div className="flex flex-wrap justify-center space-x-5">
+              {product.images.map((image, index) => (
                 <div
+                  key={image.id || image.src || index} // 👈 use a unique key
                   onClick={() => handleSetActiveImage(image)}
                   className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4"
                 >
                   {/* <img
-                    src={image.src}
-                    alt={product.images[1].alt}
-                    className="h-full w-full object-cover object-center"
-                  /> */}
+        src={image.src}
+        alt={image.alt}
+        className="object-cover object-center w-full h-full"
+      /> */}
                 </div>
               ))}
             </div>
           </div>
 
           {/* Product info */}
-          <div className="lg:col-span-1 mx-auto max-w-2xl px-4 pb-16 sm:px-6  lg:max-w-7xl  lg:px-8 lg:pb-24">
+          <div className="max-w-2xl px-4 pb-16 mx-auto lg:col-span-1 sm:px-6 lg:max-w-7xl lg:px-8 lg:pb-24">
             <div className="lg:col-span-2">
-              <h1 className="text-lg lg:text-xl font-semibold tracking-tight text-gray-900  ">
+              <h1 className="text-lg font-semibold tracking-tight text-gray-900 lg:text-xl ">
                 {customersProduct.product?.brand}
               </h1>
-              <h1 className="text-lg lg:text-xl tracking-tight text-gray-900 opacity-60 pt-1">
+              <h1 className="pt-1 text-lg tracking-tight text-gray-900 lg:text-xl opacity-60">
                 {customersProduct.product?.title}
               </h1>
             </div>
@@ -181,21 +183,19 @@ export default function ProductDetails() {
             {/* Options */}
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
-              <div className="flex space-x-5 items-center text-lg lg:text-xl tracking-tight text-gray-900 mt-6">
+              <div className="flex items-center mt-6 space-x-5 text-lg tracking-tight text-gray-900 lg:text-xl">
                 <p className="font-semibold">
-                 {customersProduct.product?.discountedPrice != null
-  ? `₹${customersProduct.product.discountedPrice}`
-  : ""}
-
+                  {customersProduct.product?.discountedPrice != null
+                    ? `₹${customersProduct.product.discountedPrice}`
+                    : ""}
                 </p>
                 <p className="opacity-50 ">
                   ₹{customersProduct.product?.price}
                 </p>
-                <p className="text-green-600 font-semibold">
-                {customersProduct.product?.discountPersent != null
-  ? `${customersProduct.product.discountPersent}% Off`
-  : ""}
-
+                <p className="font-semibold text-green-600">
+                  {customersProduct.product?.discountPersent != null
+                    ? `${customersProduct.product.discountPersent}% Off`
+                    : ""}
                 </p>
               </div>
 
@@ -211,7 +211,7 @@ export default function ProductDetails() {
                     readOnly
                   />
 
-                  <p className="opacity-60 text-sm">42807 Ratings</p>
+                  <p className="text-sm opacity-60">42807 Ratings</p>
                   <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
                     {reviews.totalCount} reviews
                   </p>
@@ -268,10 +268,10 @@ export default function ProductDetails() {
                               ) : (
                                 <span
                                   aria-hidden="true"
-                                  className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
+                                  className="absolute border-2 border-gray-200 rounded-md pointer-events-none -inset-px"
                                 >
                                   <svg
-                                    className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
+                                    className="absolute inset-0 w-full h-full text-gray-200 stroke-2"
                                     viewBox="0 0 100 100"
                                     preserveAspectRatio="none"
                                     stroke="currentColor"
@@ -322,21 +322,22 @@ export default function ProductDetails() {
                 </h3> */}
 
                 <div className="mt-4">
-                  {/* <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
+                  {/* <ul role="list" className="pl-4 space-y-2 text-sm list-disc">
                     {product.highlights.map((highlight) => (
                       <li key={highlight} className="text-gray-400">
                         <span className="text-gray-600">{highlight}</span>
                       </li>
                     ))}
                   </ul> */}
-                  <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-  {customersProduct.product?.highlights?.map((highlight, i) => (
-    <li key={i} className="text-gray-400">
-      <span className="text-gray-600">{highlight}</span>
-    </li>
-  )) || ""}
-</ul>
-
+                  <ul role="list" className="pl-4 space-y-2 text-sm list-disc">
+                    {customersProduct.product?.highlights?.map(
+                      (highlight, i) => (
+                        <li key={i} className="text-gray-400">
+                          <span className="text-gray-600">{highlight}</span>
+                        </li>
+                      )
+                    ) || ""}
+                  </ul>
                 </div>
               </div>
 
@@ -344,7 +345,9 @@ export default function ProductDetails() {
                 {/* <h2 className="text-sm font-medium text-gray-900">Details</h2> */}
 
                 <div className="mt-4 space-y-6">
-                  <p className="text-sm text-gray-600">{customersProduct.product?.details}</p>
+                  <p className="text-sm text-gray-600">
+                    {customersProduct.product?.details}
+                  </p>
                 </div>
               </div>
             </div>
@@ -353,23 +356,23 @@ export default function ProductDetails() {
 
         {/* rating and review section */}
         <section className="">
-          <h1 className="font-semibold text-lg pb-4">
+          <h1 className="pb-4 text-lg font-semibold">
             Recent Review & Ratings
           </h1>
 
-          <div className="border p-5">
+          <div className="p-5 border">
             <Grid container spacing={7}>
               <Grid item xs={7}>
                 <div className="space-y-5">
-                  { review.reviews?.map((item, i) => (
+                  {review.reviews?.map((item, i) => (
                     <ProductReviewCard item={item} />
                   ))}
                 </div>
               </Grid>
 
               <Grid item xs={5}>
-                <h1 className="text-xl font-semibold pb-1">Product Ratings</h1>
-                <div className="flex items-center space-x-3 pb-10">
+                <h1 className="pb-1 text-xl font-semibold">Product Ratings</h1>
+                <div className="flex items-center pb-10 space-x-3">
                   <Rating
                     name="read-only"
                     value={4.6}
@@ -399,7 +402,7 @@ export default function ProductDetails() {
                       />
                     </Grid>
                     <Grid xs={2}>
-                      <p className="opacity-50 p-2">19259</p>
+                      <p className="p-2 opacity-50">19259</p>
                     </Grid>
                   </Grid>
                 </Box>
@@ -423,7 +426,7 @@ export default function ProductDetails() {
                       />
                     </Grid>
                     <Grid xs={2}>
-                      <p className="opacity-50 p-2">19259</p>
+                      <p className="p-2 opacity-50">19259</p>
                     </Grid>
                   </Grid>
                 </Box>
@@ -447,7 +450,7 @@ export default function ProductDetails() {
                       />
                     </Grid>
                     <Grid xs={2}>
-                      <p className="opacity-50 p-2">19259</p>
+                      <p className="p-2 opacity-50">19259</p>
                     </Grid>
                   </Grid>
                 </Box>
@@ -478,7 +481,7 @@ export default function ProductDetails() {
                       />
                     </Grid>
                     <Grid xs={2}>
-                      <p className="opacity-50 p-2">19259</p>
+                      <p className="p-2 opacity-50">19259</p>
                     </Grid>
                   </Grid>
                 </Box>
@@ -502,7 +505,7 @@ export default function ProductDetails() {
                       />
                     </Grid>
                     <Grid xs={2}>
-                      <p className="opacity-50 p-2">19259</p>
+                      <p className="p-2 opacity-50">19259</p>
                     </Grid>
                   </Grid>
                 </Box>
@@ -512,11 +515,14 @@ export default function ProductDetails() {
         </section>
 
         {/* similer product */}
-        <section className=" pt-10">
+        <section className="pt-10 ">
           <h1 className="py-5 text-xl font-bold">Similer Products</h1>
           <div className="flex flex-wrap space-y-5">
             {gounsPage1.map((item) => (
-              <HomeProductCard product={item} />
+              <HomeProductCard
+                key={item.id}
+                product={item}
+              />
             ))}
           </div>
         </section>
